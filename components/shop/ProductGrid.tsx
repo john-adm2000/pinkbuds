@@ -1,12 +1,26 @@
 import ProductCard from "./ProductCard";
-import { products } from "../data/products";
 
-export default function ProductGrid() {
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  oldPrice: number;
+  rating: number;
+  reviews: number;
+  discount: string;
+  image: string;
+};
+
+type ProductGridProps = {
+  products: Product[];
+};
+
+export default function ProductGrid({
+  products,
+}: ProductGridProps) {
   return (
     <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-
       {products.map((product) => (
-
         <ProductCard
           key={product.id}
           image={product.image}
@@ -17,9 +31,7 @@ export default function ProductGrid() {
           reviews={product.reviews}
           discount={product.discount}
         />
-
       ))}
-
     </div>
   );
 }

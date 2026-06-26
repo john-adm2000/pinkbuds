@@ -1,16 +1,38 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/home/Footer";
 import ProductGrid from "@/components/shop/ProductGrid";
+import SearchBar from "@/components/shop/SearchBar";
+
+import { products } from "@/components/data/products";
 
 export default function ShopPage() {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+
+  const filteredProducts = useMemo(() => {
+  return products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesCategory =
+      category === "All" ||
+      product.category === category;
+
+    return matchesSearch && matchesCategory;
+  });
+}, [search, category]);
+
   return (
     <>
       <Navbar />
 
       <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
 
-        {/* Page Header */}
-
+        {/* Header */}
         <section className="mx-auto max-w-7xl px-6 py-16">
 
           <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
@@ -29,11 +51,9 @@ export default function ShopPage() {
         </section>
 
         {/* Shop Layout */}
-
         <section className="mx-auto grid max-w-7xl gap-10 px-6 pb-20 lg:grid-cols-4">
 
           {/* Sidebar */}
-
           <aside className="rounded-3xl bg-white p-6 shadow-md">
 
             <h2 className="mb-6 text-2xl font-bold">
@@ -43,22 +63,43 @@ export default function ShopPage() {
             <div className="space-y-6">
 
               <div>
+
                 <h3 className="mb-3 font-semibold">
                   Categories
                 </h3>
 
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2">
 
-                  <li>🌹 Roses</li>
-                  <li>🌸 Lilies</li>
-                  <li>💐 Bouquets</li>
-                  <li>🪴 Plants</li>
-                  <li>🎁 Gifts</li>
+  {[
+    "All",
+    "Roses",
+    "Lilies",
+    "Bouquets",
+    "Gifts",
+    "Tulips",
+  ].map((item) => (
 
-                </ul>
+    <li
+      key={item}
+      onClick={() => setCategory(item)}
+      className={`cursor-pointer rounded-lg px-2 py-2 transition
+      ${
+        category === item
+          ? "bg-pink-100 font-semibold text-pink-600"
+          : "text-gray-600 hover:bg-pink-50"
+      }`}
+    >
+      {item}
+    </li>
+
+  ))}
+
+</ul>
+
               </div>
 
               <div>
+
                 <h3 className="mb-3 font-semibold">
                   Price
                 </h3>
@@ -74,31 +115,34 @@ export default function ShopPage() {
 
           </aside>
 
-          {/* Product Area */}
-
+          {/* Products */}
           <div className="lg:col-span-3">
 
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
               <h2 className="text-2xl font-bold">
-                120 Products
+                {filteredProducts.length} Products
               </h2>
 
-              <select className="rounded-xl border px-4 py-2">
+              <div className="flex flex-col gap-4 md:flex-row">
 
-                <option>Latest</option>
+                <SearchBar
+                  search={search}
+                  setSearch={setSearch}
+                />
 
-                <option>Price Low → High</option>
+                <select className="rounded-xl border px-4 py-2">
+                  <option>Latest</option>
+                  <option>Price Low → High</option>
+                  <option>Price High → Low</option>
+                  <option>Best Selling</option>
+                </select>
 
-                <option>Price High → Low</option>
-
-                <option>Best Selling</option>
-
-              </select>
+              </div>
 
             </div>
 
-            <ProductGrid />
+            <ProductGrid products={filteredProducts} />
 
           </div>
 
