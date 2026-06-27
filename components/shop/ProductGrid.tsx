@@ -1,5 +1,5 @@
-import ProductCard from "./ProductCard";
 import { Product } from "@/types/product";
+import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
   products: Product[];
@@ -32,13 +32,7 @@ export default function ProductGrid({
 
         <ProductCard
           key={product.id}
-          image={product.image}
-          name={product.name}
-          price={product.price}
-          oldPrice={product.oldPrice}
-          rating={product.rating}
-          reviews={product.reviews}
-          discount={product.discount}
+          product={product}
         />
 
       ))}
