@@ -1,18 +1,24 @@
 "use client";
 
 import { ReactNode } from "react";
-import { CartProvider } from "@/context/CartContext";
 
-type ProvidersProps = {
-  children: ReactNode;
-};
+import { CartProvider } from "@/context/CartContext";
+import { CheckoutProvider } from "@/context/CheckoutContext";
 
 export default function Providers({
   children,
-}: ProvidersProps) {
+}: {
+  children: ReactNode;
+}) {
   return (
     <CartProvider>
-      {children}
+
+      <CheckoutProvider>
+
+        {children}
+
+      </CheckoutProvider>
+
     </CartProvider>
   );
 }

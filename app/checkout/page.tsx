@@ -1,7 +1,11 @@
 "use client";
-import CheckoutStepper from "@/components/checkout/CheckoutStepper";
+
 import Navbar from "@/components/layout/Navbar";
+
+import CheckoutStepper from "@/components/checkout/CheckoutStepper";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
+import DeliveryOptions from "@/components/checkout/DeliveryOptions";
+
 import CartSummary from "@/components/cart/CartSummary";
 
 export default function CheckoutPage() {
@@ -16,13 +20,16 @@ export default function CheckoutPage() {
           <h1 className="mb-10 text-4xl font-bold">
             Checkout
           </h1>
+
           <CheckoutStepper currentStep={1} />
 
-          <div className="grid gap-10 lg:grid-cols-3">
+          <div className="mt-10 grid gap-10 lg:grid-cols-3">
 
-            <div className="lg:col-span-2">
+            <div className="space-y-8 lg:col-span-2">
 
               <CheckoutForm />
+
+              <DeliveryOptions />
 
             </div>
 
