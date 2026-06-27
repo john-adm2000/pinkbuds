@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   ReactNode,
+  useEffect,
 } from "react";
 
 import { Product } from "@/types/product";
@@ -35,12 +36,39 @@ const CartContext = createContext<CartContextType | undefined>(
   undefined
 );
 
+const STORAGE_KEY = "pinkbuds-cart";
+
 export function CartProvider({
   children,
 }: {
   children: ReactNode;
 }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  /* ---------- Load Cart ---------- */
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem(STORAGE_KEY);
+
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
+
+  /* ---------- Save Cart ---------- */
+
+  useEffect(() => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(cart)
+    );
+  }, [cart]);
+
+  /* ---------- Add ---------- */
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
@@ -69,11 +97,15 @@ export function CartProvider({
     });
   };
 
+  /* ---------- Remove ---------- */
+
   const removeFromCart = (id: number) => {
     setCart((prev) =>
       prev.filter((item) => item.id !== id)
     );
   };
+
+  /* ---------- Increase ---------- */
 
   const increaseQuantity = (id: number) => {
     setCart((prev) =>
@@ -87,6 +119,8 @@ export function CartProvider({
       )
     );
   };
+
+  /* ---------- Decrease ---------- */
 
   const decreaseQuantity = (id: number) => {
     setCart((prev) =>
@@ -103,9 +137,13 @@ export function CartProvider({
     );
   };
 
+  /* ---------- Clear ---------- */
+
   const clearCart = () => {
     setCart([]);
   };
+
+  /* ---------- Totals ---------- */
 
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
