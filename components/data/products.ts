@@ -1,4 +1,6 @@
-export const products = [
+import { Product } from "@/types/product";
+
+export const products: Product[] = [
   {
     id: 1,
     name: "Luxury Pink Roses",
@@ -14,7 +16,6 @@ export const products = [
     bestseller: true,
     image: "/images/products/rose.png",
   },
-
   {
     id: 2,
     name: "White Lily Bouquet",
@@ -30,7 +31,6 @@ export const products = [
     bestseller: false,
     image: "/images/products/lily.png",
   },
-
   {
     id: 3,
     name: "Mixed Flower Basket",
@@ -46,7 +46,6 @@ export const products = [
     bestseller: true,
     image: "/images/products/basket.png",
   },
-
   {
     id: 4,
     name: "Red Rose Box",
@@ -62,7 +61,6 @@ export const products = [
     bestseller: true,
     image: "/images/products/giftbox.png",
   },
-
   {
     id: 5,
     name: "Romantic Bouquet",
@@ -78,7 +76,6 @@ export const products = [
     bestseller: false,
     image: "/images/products/bouquet.png",
   },
-
   {
     id: 6,
     name: "Pink Tulips",
