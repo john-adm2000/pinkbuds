@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 import AnnouncementBar from "./AnnouncementBar";
+import CartDrawer from "@/components/cart/CartDrawer";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const { cartCount } = useCart();
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <>
@@ -67,20 +71,17 @@ export default function Navbar() {
               ❤️
             </button>
 
-            <button className="relative rounded-full bg-pink-600 px-5 py-2 text-white transition hover:bg-pink-700">
-
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="relative rounded-full bg-pink-600 px-5 py-2 text-white transition hover:bg-pink-700"
+            >
               🛒 Cart
 
               {cartCount > 0 && (
-
                 <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-
                   {cartCount}
-
                 </span>
-
               )}
-
             </button>
 
           </div>
@@ -88,6 +89,11 @@ export default function Navbar() {
         </div>
 
       </header>
+
+      <CartDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </>
   );
 }

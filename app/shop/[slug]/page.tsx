@@ -1,10 +1,11 @@
-import ProductGallery from "@/components/product/ProductGallery";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+
+import Navbar from "@/components/layout/Navbar";
+import ProductGallery from "@/components/product/ProductGallery";
+import ProductActions from "@/components/product/ProductActions";
 
 import { products } from "@/components/data/products";
-
-import Image from "next/image";
-import Link from "next/link";
 
 type PageProps = {
   params: Promise<{
@@ -26,139 +27,107 @@ export default async function ProductPage({
   }
 
   return (
-    <main className="min-h-screen bg-pink-50">
+    <>
+      <Navbar />
 
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <main className="min-h-screen bg-pink-50">
 
-        {/* Breadcrumb */}
+        <div className="mx-auto max-w-7xl px-6 py-10">
 
-        <div className="mb-8 text-sm text-gray-500">
+          {/* Breadcrumb */}
 
-          <Link
-            href="/"
-            className="hover:text-pink-600"
-          >
-            Home
-          </Link>
+          <div className="mb-8 text-sm text-gray-500">
 
-          {" / "}
+            <Link
+              href="/"
+              className="hover:text-pink-600"
+            >
+              Home
+            </Link>
 
-          <Link
-            href="/shop"
-            className="hover:text-pink-600"
-          >
-            Shop
-          </Link>
+            {" / "}
 
-          {" / "}
+            <Link
+              href="/shop"
+              className="hover:text-pink-600"
+            >
+              Shop
+            </Link>
 
-          <span className="text-pink-600">
-            {product.name}
-          </span>
+            {" / "}
 
-        </div>
-
-        <div className="grid gap-12 lg:grid-cols-2">
-
-          {/* Product Image */}
-
-          <div>
-
-          <ProductGallery
-           images={product.gallery}
-           name={product.name}
-           />
-          </div>
-
-          {/* Product Info */}
-
-          <div>
-
-            <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
-
-              {product.category}
-
+            <span className="text-pink-600">
+              {product.name}
             </span>
 
-            <h1 className="mt-6 text-5xl font-bold">
+          </div>
 
-              {product.name}
+          <div className="grid gap-12 lg:grid-cols-2">
 
-            </h1>
+            {/* Gallery */}
 
-            <div className="mt-5 flex items-center gap-3">
+            <ProductGallery
+              images={product.gallery}
+              name={product.name}
+            />
 
-              <span className="text-yellow-500">
+            {/* Product Details */}
 
-                ⭐ {product.rating}
+            <div>
 
+              <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
+                {product.category}
               </span>
 
-              <span className="text-gray-500">
+              <h1 className="mt-6 text-5xl font-bold">
+                {product.name}
+              </h1>
 
-                ({product.reviews} Reviews)
+              <div className="mt-5 flex items-center gap-3">
 
-              </span>
-
-            </div>
-
-            <div className="mt-6 flex items-center gap-4">
-
-              <span className="text-4xl font-bold text-pink-600">
-
-                ₹{product.price}
-
-              </span>
-
-              <span className="text-xl text-gray-400 line-through">
-
-                ₹{product.oldPrice}
-
-              </span>
-
-            </div>
-
-            <div className="mt-6">
-
-              {product.stock > 0 ? (
-
-                <span className="font-semibold text-green-600">
-
-                  ✓ In Stock ({product.stock})
-
+                <span className="text-yellow-500">
+                  ⭐ {product.rating}
                 </span>
 
-              ) : (
-
-                <span className="font-semibold text-red-600">
-
-                  Out Of Stock
-
+                <span className="text-gray-500">
+                  ({product.reviews} Reviews)
                 </span>
 
-              )}
+              </div>
 
-            </div>
+              <div className="mt-6 flex items-center gap-4">
 
-            <p className="mt-8 leading-8 text-gray-600">
+                <span className="text-4xl font-bold text-pink-600">
+                  ₹{product.price}
+                </span>
 
-              {product.description}
+                <span className="text-xl text-gray-400 line-through">
+                  ₹{product.oldPrice}
+                </span>
 
-            </p>
+              </div>
 
-            <div className="mt-10 flex gap-4">
+              <div className="mt-6">
 
-              <button className="rounded-full bg-pink-600 px-8 py-4 font-semibold text-white hover:bg-pink-700">
+                {product.stock > 0 ? (
+                  <span className="font-semibold text-green-600">
+                    ✓ In Stock ({product.stock})
+                  </span>
+                ) : (
+                  <span className="font-semibold text-red-600">
+                    Out Of Stock
+                  </span>
+                )}
 
-                Add To Cart
+              </div>
 
-              </button>
+              <p className="mt-8 leading-8 text-gray-600">
+                {product.description}
+              </p>
 
-              <button className="rounded-full border border-pink-600 px-8 py-4 font-semibold text-pink-600 hover:bg-pink-50">
-
-                Buy Now
-
-              </button>
+              <ProductActions
+                product={product}
+              />
 
             </div>
 
@@ -166,8 +135,7 @@ export default async function ProductPage({
 
         </div>
 
-      </div>
-
-    </main>
+      </main>
+    </>
   );
 }
